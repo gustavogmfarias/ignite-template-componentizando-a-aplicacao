@@ -13,6 +13,8 @@ interface MovieProps {
   Runtime: string;
 }
 
+const [selectedGenreId, setSelectedGenreId] = useState(1);
+
 export function Content() {
   const [movies, setMovies] = useState<MovieProps[]>([]);
 
@@ -21,19 +23,20 @@ export function Content() {
       .get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`)
       .then((response) => {
         setMovies(response.data);
-      }); }
-      
+      });
+  });
 
-<div className="movies-list">
-{movies.map((movie) => (
-  <MovieCard
-    key={movie.imdbID}
-    title={movie.Title}
-    poster={movie.Poster}
-    runtime={movie.Runtime}
-    rating={movie.Ratings[0].Value}
-  />
-))}
-</div>
-
+  return (
+    <div className="movies-list">
+      {movies.map((movie) => (
+        <MovieCard
+          key={movie.imdbID}
+          title={movie.Title}
+          poster={movie.Poster}
+          runtime={movie.Runtime}
+          rating={movie.Ratings[0].Value}
+        />
+      ))}
+    </div>
+  );
 }
